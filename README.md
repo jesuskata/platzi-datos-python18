@@ -4,6 +4,7 @@
   - [¿Qué es la Ciencia e Ingeniería de Datos?](#%C2%BFqu%C3%A9-es-la-ciencia-e-ingenier%C3%ADa-de-datos)
   - [Roles](#roles)
   - [Configuración del ambiente](#configuraci%C3%B3n-del-ambiente)
+  - [Jupyter Notebook](#jupyter-notebook)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -72,3 +73,15 @@ source deactivate # Para salir
 conda env list # nos muestra los ambientes virtuales que tenemos
 conda remove --name [nombre-del-proyecto] --all # eliminar nuestro entorno virtual con todos nuestros paquetes
 ```
+
+## Jupyter Notebook
+
+Algo interesante que tenemos con _Anaconda_ es que nos trae _Jupyter Notebooks_.
+
+Jupyter Notebooks es un __entorno de programación__ en el cual podemos mezclar ejecución de _código en vivo_, _visualizaciones_ y añadir _markdown_.
+
+Para inicializar nuestro servidor de jupyter, escribimos en el command line: `jupyter notebook`.
+
+Jupyter Notebook tiene diferentes tipos de celdas en las cuales podemos escribir código o markdown. Si queremos ejecutar nuestro código hacemos `ctrl + enter` y si queremos ejecutar y añadir una nueva celda `shift + enter`.
+
+Jupyter Notebook tiene dos modalidades, la modalidad de __edición__ y __navegación__.
