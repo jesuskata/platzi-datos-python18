@@ -12,6 +12,7 @@
   - [Introducción a las tecnologías web](#introducci%C3%B3n-a-las-tecnolog%C3%ADas-web)
   - [Realizando solicitudes HTTP con Python](#realizando-solicitudes-http-con-python)
   - [¿Cómo trabajar con documentos HTML?](#%C2%BFc%C3%B3mo-trabajar-con-documentos-html)
+  - [Solicitudes a la web: Requests](#solicitudes-a-la-web-requests)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -295,6 +296,8 @@ soup.select('body')
 
 Un ejemplo del uso de BeautifulSoup para obtener los links de todas las carreras del Sitio Web de Platzi:
 
+![Selecting with BeautifulSoup](assets/selecting-bs4-platzi-carreras.jpg)
+
 ```python
 import bs4
 
@@ -311,4 +314,25 @@ courses = [course['href'] for course in courses_links]
 
 for course in courses:
     print(course) # Nos devuelve toda la lista de href de cada carrera de Platzi
+```
+
+## Solicitudes a la web: Requests
+
+Para poder desarrollar scrapers debemos entender los datos _semi estructurados_ dados por el HTML para determinar __qué tipo__ de selectores CSS necesitamos para sacar información.
+
+Un buen __Data engineer__ utiliza los conceptos de la ingeniería de software para poder desarrollar sus programa. En nuestro caso para poder desarrollar, nos apoyaremos de un _patrón_.
+
+__Page Object Patter__: Es un patrón que consiste en 'esconder' los queries especificos que se utilizan para manipular un documento HTML detrás de un objeto que representa la página web.
+
+Si estos queries se añaden directamente al código principal, el código se vuelve frágil y va a depender mucho de la modificación que hagan a la web otras personas y arreglarlo se vuelve muy complicado.
+
+Por ejemplo:
+
+```python
+class WebPage:
+    ...
+
+    @property
+    def page_header(self):
+        return soup.select('some-query h1')
 ```
