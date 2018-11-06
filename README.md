@@ -11,6 +11,7 @@
   - [ETL (Extract Transform Load)](#etl-extract-transform-load)
   - [Introducción a las tecnologías web](#introducci%C3%B3n-a-las-tecnolog%C3%ADas-web)
   - [Realizando solicitudes HTTP con Python](#realizando-solicitudes-http-con-python)
+  - [¿Cómo trabajar con documentos HTML?](#%C2%BFc%C3%B3mo-trabajar-con-documentos-html)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -275,4 +276,39 @@ print(response.headers['Date']) # Al ser la respuesta de los headers un dicciona
 # Tue, 06 Nov 2018 17:04:21 GMT
 
 print(response.text) # Nos devuelve el contenido html del sitio
+```
+
+## ¿Cómo trabajar con documentos HTML?
+
+En el caso de Python la librería estándar para manipular los documentos _HTML_ se llama __BeautifulSoup__.
+
+_BeautifulSoup_ nos ayuda a organizar _gramaticalmente_(parsear) el documento HTML para que tengamos una estructura con la cual podamos manejar y extraer información. BeautifulSoup convierte el string de HTML en un árbol de nodos para poder manipularlo.
+
+Para manipularlo podemos usar los selectores _CSS_ con `soup.select()`
+
+Por ejemplo:
+
+```python
+soup = bs4.BeautifulSoup(response.text, 'html.parser')
+soup.select('body')
+```
+
+Un ejemplo del uso de BeautifulSoup para obtener los links de todas las carreras del Sitio Web de Platzi:
+
+```python
+import bs4
+
+soup = bs4.BeautifulSoup(response.text, 'html.parser')
+
+# print(soup.title.text) # Nos devuelve el título del Sitio web según su title en el DOCTYPE de HTML
+
+# print(soup.select('meta[name=description]')) # Nos devuelve la lista del contenido de meta
+
+# print(soup.select('meta[name=description]')[0]['content']) # Nos devuelve únicamente el content que hay en meta
+
+courses_links = soup.select('.Card-link')
+courses = [course['href'] for course in courses_links]
+
+for course in courses:
+    print(course) # Nos devuelve toda la lista de href de cada carrera de Platzi
 ```
