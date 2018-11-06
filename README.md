@@ -5,6 +5,7 @@
   - [Roles](#roles)
   - [Configuración del ambiente](#configuraci%C3%B3n-del-ambiente)
   - [Jupyter Notebook](#jupyter-notebook)
+  - [Tipos de datos](#tipos-de-datos)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -85,3 +86,53 @@ Para inicializar nuestro servidor de jupyter, escribimos en el command line: `ju
 Jupyter Notebook tiene diferentes tipos de celdas en las cuales podemos escribir código o markdown. Si queremos ejecutar nuestro código hacemos `ctrl + enter` y si queremos ejecutar y añadir una nueva celda `shift + enter`.
 
 Jupyter Notebook tiene dos modalidades, la modalidad de __edición__ y __navegación__.
+
+## Tipos de datos
+
+Los datos vienen en mucha formas y estas formas las podemos clasificar de diferentes maneras, permitiéndonos poder aplicar técnicas distintas a cada uno de los tipos de datos.
+
+Los primeros datos son los primitivos.
+
+- int,
+- str,
+- bool,
+- float,
+- hex,
+- oct,
+- datetime,
+- objetos especiales
+
+```python
+from datetime import datetime
+
+integer_type = 42
+float_type = 3.14159
+bool_type = False
+hex_type = 0xff
+oct_type = 0o23
+today = datetime.now()
+str_type = 'Jesus'
+```
+
+Tenemos clasificaciones ulteriores como:
+
+- Los datos estructurados: son los más fáciles de acceder
+  - Bases de datos
+  - Data warehouses
+
+![Tabla de base de datos MySQL](assets/mysql_table_example.png)
+
+- Semi estructurados: son con los que podemos utilizar APIs
+  - json API
+  - Datos tabulares (csv, excel)
+- no estructurados: la mayoría de datos que vamos a tener disponibles están clasificados aquí
+  - HTML
+  - Texto libre
+  - Currículums vitae
+  - Imágenes, audio, social media
+  - Datos científicos
+
+![Markup en HTML](assets/html_markup_example.png)
+
+- Cualitativos vs cuantitativos
+- Tiempo real vs históricos
