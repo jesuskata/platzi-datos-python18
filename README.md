@@ -8,6 +8,7 @@
   - [Tipos de datos](#tipos-de-datos)
   - [Fuentes de datos](#fuentes-de-datos)
     - [Links de fuentes de datos](#links-de-fuentes-de-datos)
+  - [ETL (Extract Transform Load)](#etl-extract-transform-load)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -165,3 +166,24 @@ Se ha vuelto una mina espectacular en los últimos años. Como automóviles.
 - [Dataset Search by Google](https://toolbox.google.com/datasetsearch)
 - [Data Catalog for Analysis](https://data.world/)
 - [Kaggle, for Data Science](https://www.kaggle.com/)
+
+## ETL (Extract Transform Load)
+
+__Extract__: Es el proceso de lectura de datos de diversas fuentes
+
+- Base de datos
+- CRM
+- Archivos CSV
+- Datasets públicos
+
+__Transform__: En este momento cuando nosotros tenemos que transformar los datos, tenemos que identificar datos faltantes o datos erróneos o una edad negativa. En esta etapa donde tenemos que identificar todos los problemas y solucionarlos.
+
+- Limpieza
+- Estructurado
+- Enriquecimiento.
+
+__Load__: Una vez transformados debemos insertarlos en el data warehouse
+
+- Depende del tipo de solución que se haya escogido
+
+![ETL](assets/etl-python.jpg)
