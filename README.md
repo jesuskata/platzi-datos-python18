@@ -13,6 +13,7 @@
   - [Realizando solicitudes HTTP con Python](#realizando-solicitudes-http-con-python)
   - [¿Cómo trabajar con documentos HTML?](#%C2%BFc%C3%B3mo-trabajar-con-documentos-html)
   - [Solicitudes a la web: Requests](#solicitudes-a-la-web-requests)
+  - [Implementando un web scrapper: Configuracion](#implementando-un-web-scrapper-configuracion)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -336,3 +337,6 @@ class WebPage:
     def page_header(self):
         return soup.select('some-query h1')
 ```
+
+## Implementando un web scrapper: Configuracion
+
