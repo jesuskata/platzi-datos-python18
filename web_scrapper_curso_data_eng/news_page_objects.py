@@ -4,7 +4,7 @@ import requests
 from common import config
 
 
-class HomePage:
+class NewsPage:
 
     def __init__(self, news_site_uid, url):
         self._config = config()['news_sites'][news_site_uid]
@@ -12,6 +12,21 @@ class HomePage:
         self._html = None
 
         self._visit(url)
+
+    def _select(self, query_string):
+        return self._html.select(query_string)
+
+    def _visit(self, url):
+        response = requests.get(url)
+        response. raise_for_status() # Este método nos permite arrojar un error si la solicitud no concluyó exitosamente
+
+        self._html = bs4.BeautifulSoup(response.text, 'html.parser')
+
+
+class HomePage(NewsPage):
+
+    def __init__(self, news_site_uid, url):
+        super().__init__(news_site_uid, url)
 
     @property
     def _article_links(self):
@@ -22,12 +37,18 @@ class HomePage:
 
         return set(link['href'] for link in link_list)
 
-    def _select(self, query_string):
-        return self._html.select(query_string)
 
-    def _visit(self, url):
-        response = requests.get(url)
+class ArticlePage(NewsPage):
 
-        response. raise_for_status() # Este método nos permite arrojar un error si la solicitud no concluyó exitosamente
+    def __init__(self, news_site_uid, url):
+        super().__init__(news_site_uid, url)
 
-        self._html = bs4.BeautifulSoup(response.text, 'html.parser')
+    @property
+    def body(self):
+        result = self._select(self._queries['article_body'])
+        return result[0].text if len(result) else ''
+
+    @property
+    def title(self):
+        result = self._select(self._queries['article_title'])
+        return result[0].text if len(result) else ''
