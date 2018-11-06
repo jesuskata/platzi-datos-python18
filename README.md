@@ -6,6 +6,8 @@
   - [Configuración del ambiente](#configuraci%C3%B3n-del-ambiente)
   - [Jupyter Notebook](#jupyter-notebook)
   - [Tipos de datos](#tipos-de-datos)
+  - [Fuentes de datos](#fuentes-de-datos)
+    - [Links de fuentes de datos](#links-de-fuentes-de-datos)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -136,3 +138,30 @@ Tenemos clasificaciones ulteriores como:
 
 - Cualitativos vs cuantitativos
 - Tiempo real vs históricos
+
+## Fuentes de datos
+
+- __Web__
+
+Es una mina enorme con datos financieros, de startups, del clima, precipitación fluvial, astronómicos, de negocios, etc.
+
+- __APIs__
+
+Endpoints que viven en la web y nos devuelven JSON. Por ejemplo, la API de twitter, google, facebook.
+
+- __User Analytics__
+
+Son el comportamiento del usuario dentro de nuestra aplicaciones, algo similiar a los que nos ofrece Google Analytics.
+
+- __IoT__
+
+Se ha vuelto una mina espectacular en los últimos años. Como automóviles.
+
+### Links de fuentes de datos
+
+- [El Pais](https://elpais.com/elpais/portada_america.html)
+- [Google Cloud Platform](https://console.cloud.google.com/apis/library)
+- [Datos Abiertos de México](https://datos.gob.mx/)
+- [Dataset Search by Google](https://toolbox.google.com/datasetsearch)
+- [Data Catalog for Analysis](https://data.world/)
+- [Kaggle, for Data Science](https://www.kaggle.com/)
