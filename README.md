@@ -9,6 +9,8 @@
   - [Fuentes de datos](#fuentes-de-datos)
     - [Links de fuentes de datos](#links-de-fuentes-de-datos)
   - [ETL (Extract Transform Load)](#etl-extract-transform-load)
+  - [Introducción a las tecnologías web](#introducci%C3%B3n-a-las-tecnolog%C3%ADas-web)
+  - [Realizando solicitudes HTTP con Python](#realizando-solicitudes-http-con-python)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -187,3 +189,90 @@ __Load__: Una vez transformados debemos insertarlos en el data warehouse
 - Depende del tipo de solución que se haya escogido
 
 ![ETL](assets/etl-python.jpg)
+
+## Introducción a las tecnologías web
+
+Las tecnologías web en principio podemos pensarlas como el internet, pero el internet es mucho más grande, es la _red de redes_, la forma en la que millones de computadores se conectan entre ellas para _transferirse información_.
+
+El internet también se compone de otros pedazos como:
+
+- Telefonía(voip),
+- Mail(pop3, imap),
+- Compartir archivos(ftp).
+
+El internet es una red que une varias redes públicas, privadas, académicas, de negocios, de gobiernos, etc.
+
+La web específicamente es un espacio de información en el cual varios documentos(y otros recursos web) se pueden acceder a través de URLs y vínculos(links). La comunicación se da a través del protocolo HTTP.
+
+Elementos básicos de la web:
+
+- __HTML__: nos da la estructura de la información. Es un lenguaje para anotar pedazos de información para que el navegador o otros tipos de programa puedan interpretar que tipo de información se encuentra ahí.
+- __CSS__: nos permite darle colores, arreglar el texto y añadir diferentes elementos de presentación.
+- __Javascript__: nos permite añadir interactividad y cómputo a nuestra web.
+- __JSON__: Simplemente es una forma de transmitir datos entre servidores y clientes. Es la forma estándar en las que en la web y las aplicaciones se comunican con los servidores backend.
+
+Un link interesante para los sitios SPA, sería [Puppeteer](https://developers.google.com/web/tools/puppeteer/), ya que al ser rendereado por JavaScript, nuestro `scrapping` a veces puede que nos traiga sitios "vacíos".
+
+## Realizando solicitudes HTTP con Python
+
+Para poder experimentar con la web necesitamos un método programático para solicitar _URLs_ y obtener _HTML_.
+
+__Requests__: Nos permite generar solicitudes a la web dentro de Python y utilizar los diferentes verbos `HTTP`, normalmente utilizaremos el método `GET` porque vamos a traer datos.
+
+Algunos ejemplos de verbos HTTP:
+
+- GET
+- POST
+- PUT
+- DELETE
+- PATCH
+- OPTIONS
+
+```bash
+requests.get('url') # para hacer una solicitud a la web y nos devolverá un objeto response
+```
+
+Todas las solicitudes _HTTP_ tienen _metadatos_ para que los diferentes sistemas y computadoras puedan entender de qué va la solicitud.
+
+Algunos de los códigos de estado del protocolo HTTP:
+
+- 200 : OK - Petición correcta.
+- 400 : Bad request - Petición incorrecta.
+- 404 : Not found - Recurso no encontrado.
+
+Estos códigos estan categorizados en los siguientes grupos:
+
+- 1xx : Respuestas informativas (Ej: 100, 101, 102, etc.)
+- 2xx : Peticiones correctas (Ej: 200, 201, 202, etc.)
+- 3xx : Redirecciones (Ej: 300, 301, 302, etc.)
+- 4xx : Errores en el lado del cliente (Ej: 400, 401, 402, etc.)
+- 5xx : Errores en el lado del servidor (Ej: 500, 501, 502, etc.)
+
+Puedes ver la lista en este [link](https://es.wikipedia.org/wiki/Anexo:C%C3%B3digos_de_estado_HTTP)
+
+Un ejemplo del uso de una librería de Python llamada `requests`:
+
+```python
+import requests
+
+response = requests.get('https://platzi.com')
+
+response? # Nos da una respuesta con información mínima del tipo de contenido
+response?? # Nos extiende la respuesta de la clase con su contenido
+
+print(dir(response)) # Nos da todos los métodos que podemos usar en response
+
+# ['__attrs__', '__bool__', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__enter__', '__eq__', '__exit__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__nonzero__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_content', '_content_consumed', '_next', 'apparent_encoding', 'close', 'connection', 'content', 'cookies', 'elapsed', 'encoding', 'headers', 'history', 'is_permanent_redirect', 'is_redirect', 'iter_content', 'iter_lines', 'json', 'links', 'next', 'ok', 'raise_for_status', 'raw', 'reason', 'request', 'status_code', 'text', 'url']
+
+print(response.status_code) # Nos devuelve el status code (en este caso 200)
+
+print(response.headers) # Nos devuelve los headers de la página
+
+# {'Date': 'Tue, 06 Nov 2018 17:04:21 GMT', 'Content-Type': 'text/html; charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Set-Cookie': '__cfduid=d1b51196c1cf6dbe852e2ab7c341fd1761541523860; expires=Wed, 06-Nov-19 17:04:20 GMT; path=/; domain=.platzi.com; HttpOnly, entry_path="/"; expires=Tue, 06-Nov-2018 17:54:21 GMT; Max-Age=3000; Path=/, s=s723u4hzyyae5eij27jr2qhaivflws65; Domain=.platzi.com; expires=Tue, 20-Nov-2018 17:04:21 GMT; HttpOnly; Max-Age=1209600; Path=/; Secure, csrftoken=KH1rPdE3CzxwYgrlUQsV4yoAQIoVQmVPgOTo3AHGrEsmW5OldBBGMegvJw6UI6d1; expires=Tue, 05-Nov-2019 17:04:21 GMT; Max-Age=31449600; Path=/', 'Content-Language': 'es', 'strict-transport-security': 'max-age=86400; includeSubDomains', 'Vary': 'Accept-Encoding, Accept-Language, Cookie', 'x-content-type-options': 'nosniff', 'X-Frame-Options': 'SAMEORIGIN', 'x-xss-protection': '1; mode=block', 'Expect-CT': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"', 'Server': 'cloudflare', 'CF-RAY': '47592380fe671ffa-DFW', 'Content-Encoding': 'gzip'}
+
+print(response.headers['Date']) # Al ser la respuesta de los headers un diccionario, podemos acceder a su información particular
+
+# Tue, 06 Nov 2018 17:04:21 GMT
+
+print(response.text) # Nos devuelve el contenido html del sitio
+```
