@@ -15,7 +15,8 @@
     - [Solicitudes a la web: Requests](#solicitudes-a-la-web-requests)
     - [Implementando un web scrapper: Configuracion](#implementando-un-web-scrapper-configuracion)
     - [Introducción a Pandas](#introducci%C3%B3n-a-pandas)
-    - [Estructuras de datos: Series](#estructuras-de-datos-series)
+    - [Estructura de datos: Series](#estructura-de-datos-series)
+    - [Estructura de datos: DataFrames](#estructura-de-datos-dataframes)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -367,7 +368,7 @@ Estas estructuras de datos _no son contenedores de datos_. En Pandas tenemos est
 
 Pandas también nos da facilidades para leer datos de disco y escribirlos rápidamente.
 
-## Estructuras de datos: Series
+## Estructura de datos: Series
 
 Series es un _vector unidimensional_ (recordemos que los vectores debemos verlos como una lista), para poder acceder a esta lista podemos usar _posiciones_ o _labels_, siendo este último el preferido para manipular las series. Una diferencia importante sobre las _listas_ de Python es que _los datos son homogéneos_, es decir solo podemos tener un tipo de dato por cada Serie.
 
@@ -408,3 +409,50 @@ series_test2
 # 2001    89.0
 # dtype: float64
 ```
+
+## Estructura de datos: DataFrames
+
+DataFrames son simplemente una _tabla_ donde las filas y las columnas _tienen etiquetas_, se puede construir de diferentes formas pero siempre debemos considerar que __la estructura que necesitamos construir para inicializarla tiene que ser bidimensional__. Una matriz y puede ser una lista de listas, lista de tuplas, un diccionario de Python u otro DataFrame.
+
+Si solo tenemos una dimensión a eso no le llamamos DataFrame, le llamamos Serie. Cuando utilizamos un diccionario las llaves se convierten en las llaves de la columna.
+
+Por ejemplo:
+
+```python
+frame_test = pd.DataFrame({
+    1999: [74, 38, 39],
+    2000: [34, 32, 32],
+    2001: [23, 39, 23]
+})
+
+frame_test
+# Devuelve una tabla con títulos en las columnas (1999, 2000, 2001) e índices en las filas (0, 1, 2)
+```
+
+![Resultado del frame_test](assets/dataframes-python001.png)
+
+```python
+frame_test2 = pd.DataFrame([
+    [74, 38, 39],
+    [34, 32, 32],
+    [23, 39, 23]
+])
+
+frame_test2
+# Devuelve una tabla con títulos insertados automáticamente en las columnas (0, 1, 2) e índices en las filas (0, 1, 2)
+```
+
+![Resultado del frame_test2](assets/dataframes-python002.png)
+
+```python
+frame_test3 = pd.DataFrame([
+    [74, 38, 39],
+    [34, 32, 32],
+    [23, 39, 23]
+], columns=[1999, 2000, 2001])
+
+frame_test3
+# Devuelve una tabla como en el primer ejemplo, ya que agregamos el keyword columns con el nombre de las columnas
+```
+
+![Resultado del frame_test3](assets/dataframes-python003.png)
