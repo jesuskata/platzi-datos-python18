@@ -1,19 +1,21 @@
 # Curso de Ingeniería de Datos con Python
 
 - [Curso de Ingeniería de Datos con Python](#curso-de-ingenier%C3%ADa-de-datos-con-python)
-  - [¿Qué es la Ciencia e Ingeniería de Datos?](#%C2%BFqu%C3%A9-es-la-ciencia-e-ingenier%C3%ADa-de-datos)
-  - [Roles](#roles)
-  - [Configuración del ambiente](#configuraci%C3%B3n-del-ambiente)
-  - [Jupyter Notebook](#jupyter-notebook)
-  - [Tipos de datos](#tipos-de-datos)
-  - [Fuentes de datos](#fuentes-de-datos)
-    - [Links de fuentes de datos](#links-de-fuentes-de-datos)
-  - [ETL (Extract Transform Load)](#etl-extract-transform-load)
-  - [Introducción a las tecnologías web](#introducci%C3%B3n-a-las-tecnolog%C3%ADas-web)
-  - [Realizando solicitudes HTTP con Python](#realizando-solicitudes-http-con-python)
-  - [¿Cómo trabajar con documentos HTML?](#%C2%BFc%C3%B3mo-trabajar-con-documentos-html)
-  - [Solicitudes a la web: Requests](#solicitudes-a-la-web-requests)
-  - [Implementando un web scrapper: Configuracion](#implementando-un-web-scrapper-configuracion)
+    - [¿Qué es la Ciencia e Ingeniería de Datos?](#%C2%BFqu%C3%A9-es-la-ciencia-e-ingenier%C3%ADa-de-datos)
+    - [Roles](#roles)
+    - [Configuración del ambiente](#configuraci%C3%B3n-del-ambiente)
+    - [Jupyter Notebook](#jupyter-notebook)
+    - [Tipos de datos](#tipos-de-datos)
+    - [Fuentes de datos](#fuentes-de-datos)
+        - [Links de fuentes de datos](#links-de-fuentes-de-datos)
+    - [ETL (Extract Transform Load)](#etl-extract-transform-load)
+    - [Introducción a las tecnologías web](#introducci%C3%B3n-a-las-tecnolog%C3%ADas-web)
+    - [Realizando solicitudes HTTP con Python](#realizando-solicitudes-http-con-python)
+    - [¿Cómo trabajar con documentos HTML?](#%C2%BFc%C3%B3mo-trabajar-con-documentos-html)
+    - [Solicitudes a la web: Requests](#solicitudes-a-la-web-requests)
+    - [Implementando un web scrapper: Configuracion](#implementando-un-web-scrapper-configuracion)
+    - [Introducción a Pandas](#introducci%C3%B3n-a-pandas)
+    - [Estructuras de datos: Series](#estructuras-de-datos-series)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -340,3 +342,69 @@ class WebPage:
 
 ## Implementando un web scrapper: Configuracion
 
+Nos posicionamos en la carpeta contenedora de nuestro proyecto y corremos la app con el siguiente comando:
+
+```bash
+python main.py eluniversal
+# o con el siguiente comando
+python main.py elpais
+```
+
+## Introducción a Pandas
+
+Pandas nos otorga diversa facilidades para el "_domados de datos_”. Nos otorga dos estructura de datos:
+
+- __Series__: Es un array unidimensional que representa una columna.
+- __DataFrame__: Es un conjunto de series que forman una tabla. Se pueden acceder a través de indices como un etiqueta(label) o pueden ser posicionales es decir 0 o indice 100. También pueden ser rangos o slices. Son muy similares a una hoja de cálculo o una tabla de base de datos.
+
+Estas estructuras de datos _no son contenedores de datos_. En Pandas tenemos estructuras intermedias y las utilizamos para:
+
+- Transformar y enriquecer nuestros datos
+- Manipularlos
+- Manejar los faltantes
+- Realizar operaciones aritméticas
+- Combinar diferentes dataframes en uno solo para obtener una nueva tabla
+
+Pandas también nos da facilidades para leer datos de disco y escribirlos rápidamente.
+
+## Estructuras de datos: Series
+
+Series es un _vector unidimensional_ (recordemos que los vectores debemos verlos como una lista), para poder acceder a esta lista podemos usar _posiciones_ o _labels_, siendo este último el preferido para manipular las series. Una diferencia importante sobre las _listas_ de Python es que _los datos son homogéneos_, es decir solo podemos tener un tipo de dato por cada Serie.
+
+Las Series se pueden crear a partir de cualquier secuencia(listas, tuplas, arrays de numpy y diccionarios).
+
+Por ejemplo:
+
+```python
+series = pd.Series([1, 2, 3])
+```
+
+En Python tenemos la filosofía del __Duck Typing__ (si se ve como un pato y hace cuac, a ese animal le llamamos pato), si una serie se comporta como una lista, se accede como una lista, en principio deberíamos llamarla lista, pero esto no es así.
+
+Una __mejor aproximación__ para inicializar Series es utilizar diccionarios.
+
+Por ejemplo:
+
+```python
+import pandas as pd # This pd is a convention in the Data Science with Python
+
+series_test = pd.Series([100, 200, 300])
+
+series_test
+# 0    100
+# 1    200
+# 2    300
+# dtype: int64
+
+series_test2 = pd.Series({
+    1999: 48,
+    2000: 65,
+    2001: 89
+}, dtype=float)
+
+series_test2
+# 1999    48.0
+# 2000    65.0
+# 2001    89.0
+# dtype: float64
+```
