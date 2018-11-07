@@ -1,4 +1,6 @@
 import argparse
+import csv # Este es el módulo que usamos para guardar archivos csv y usarlos
+import datetime # Este módulo lo usamos para generar el nombre de nuestro archivo, basado en el momento en que se genera
 import logging
 logging.basicConfig(level=logging.INFO)
 import re # Esta es la librería de expresiones regulares
@@ -28,9 +30,29 @@ def _news_scrapper(news_site_uid):
         if article:
             logger.info('Article fetched!!!')
             articles.append(article)
-            print(article.title)
+            break
 
-    print(len(articles))
+    _save_articles(news_site_uid, articles)
+
+
+def _save_articles(news_site_uid, articles):
+    now = datetime.datetime.now().strftime('%Y_%m_%d')
+    out_file_name = '{news_site_uid}_{datetime}_articles.csv'.format(
+        news_site_uid=news_site_uid,
+        datetime=now
+    )
+    csv_headers = list(filter(lambda property: not property.startswith('_'), dir(articles[0])))
+
+    with open(out_file_name, mode='w+') as f: # w+ significa escribir, y si no existe, lo crea
+        writer = csv.writer(f)
+        writer.writerow(csv_headers)
+
+        # Aquí comenzamos a guardar nuestros artículos
+        for article in articles:
+            row = [str(getattr(article, prop)) for prop in csv_headers]
+            # row es una forma de determinar todos los valores dentro de nuestro objeto
+            # for prop in csv_headers, vamos a obtener el atributo (getattr) del artículo con la propiedad (prop)
+            writer.writerow(row)
 
 
 def _fetch_article(news_site_uid, host, link):
