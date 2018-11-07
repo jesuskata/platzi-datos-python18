@@ -22,6 +22,7 @@
     - [Dictionary like examples](#dictionary-like-examples)
     - [Numpy like examples](#numpy-like-examples)
     - [Label based examples](#label-based-examples)
+  - [Data wrangling con Pandas](#data-wrangling-con-pandas)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -524,7 +525,7 @@ el_universal.iloc[66]['title'] # Devuelve de la fila 66 solamente el title
 el_universal.iloc[:5, 0] # Devuelve del inicio a la fila 5, solamente la columna 0 (no es común ni ideal acceder de este modo)
 ```
 
-![DataFrames Dictionary Like Example](assets/dataframes-python005.png)
+![DataFrames Numpy Like Example](assets/dataframes-python005.png)
 
 ### Label based examples
 
@@ -532,4 +533,57 @@ el_universal.iloc[:5, 0] # Devuelve del inicio a la fila 5, solamente la columna
 el_universal.loc[:, 'body':'title'] # Devuelve del principio al final solo body y title (incluyendo los valores extremos)
 ```
 
-![DataFrames Dictionary Like Example](assets/dataframes-python006.png)
+![DataFrames Label Based Example](assets/dataframes-python006.png)
+
+## Data wrangling con Pandas
+
+Data wrangling es una de las actividades más importantes de todos los profesionales de datos. Simplemente es _limpiar, transformar y enriquecer el dataset_ para objetivos posteriores.
+
+Por ejemplo:
+
+- Inserción en una base de datos
+- Visualización
+
+_Pandas_ es una de las herramientas más poderosas para realizar este “_domado_” de datos. Recordemos que Pandas trae muchas de sus abstracciones del lenguaje __R__, pero nos otorga lo mejor de ambos mundos, por eso es tan popular.
+
+Nos permite:
+
+- Generar transformaciones con gran facilidad
+- Trabajar rápidamente con datasets grandes
+- Detectar y reemplazar faltantes
+- Agrupar y resumir nuestros datos
+- Visualizar nuestros resultados
+
+Por ejemplo:
+
+```python
+# 1. Vamos a añadir la columna newspaper_uid al DataFrame, con el nombre eluniversal
+el_universal['newspaper_uid'] = 'eluniversal'
+
+el_universal # Nos devuelve el DataFrame con todos los valores y la nueva columna newspaper_uid
+```
+
+![DataFrames con Columna Nueva newspaper_uid](assets/dataframes-python007.png)
+
+```python
+# 2. Vamos a Obtener el host e incluirlo como una nueva columna
+from urllib.parse import urlparse
+# El módulo urllib.parse define una interfaz estandar para romper URLs en strings
+# https://docs.python.org/3/library/urllib.parse.html
+
+el_universal['host'] = el_universal['url'].apply(lambda url: urlparse(url).netloc)
+# La sintaxis de lambda nos permite poner una función inline
+# netloc nos devuelve el host dentro de la librería urlparse
+
+el_universal
+```
+
+![DataFrames con Columna Nueva host](assets/dataframes-python008.png)
+
+```python
+# Vamos a obtener los diferentes hosts que trae nuestro DataFrame
+el_universal['host'].value_counts()
+# La función value_counts() nos permite contar cuantos valores se repiten y sus frecuencias
+```
+
+![DataFrames Conociendo los Host](assets/dataframes-python009.png)
