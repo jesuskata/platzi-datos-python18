@@ -1,22 +1,27 @@
 # Curso de Ingeniería de Datos con Python
 
 - [Curso de Ingeniería de Datos con Python](#curso-de-ingenier%C3%ADa-de-datos-con-python)
-    - [¿Qué es la Ciencia e Ingeniería de Datos?](#%C2%BFqu%C3%A9-es-la-ciencia-e-ingenier%C3%ADa-de-datos)
-    - [Roles](#roles)
-    - [Configuración del ambiente](#configuraci%C3%B3n-del-ambiente)
-    - [Jupyter Notebook](#jupyter-notebook)
-    - [Tipos de datos](#tipos-de-datos)
-    - [Fuentes de datos](#fuentes-de-datos)
-        - [Links de fuentes de datos](#links-de-fuentes-de-datos)
-    - [ETL (Extract Transform Load)](#etl-extract-transform-load)
-    - [Introducción a las tecnologías web](#introducci%C3%B3n-a-las-tecnolog%C3%ADas-web)
-    - [Realizando solicitudes HTTP con Python](#realizando-solicitudes-http-con-python)
-    - [¿Cómo trabajar con documentos HTML?](#%C2%BFc%C3%B3mo-trabajar-con-documentos-html)
-    - [Solicitudes a la web: Requests](#solicitudes-a-la-web-requests)
-    - [Implementando un web scrapper: Configuracion](#implementando-un-web-scrapper-configuracion)
-    - [Introducción a Pandas](#introducci%C3%B3n-a-pandas)
-    - [Estructura de datos: Series](#estructura-de-datos-series)
-    - [Estructura de datos: DataFrames](#estructura-de-datos-dataframes)
+  - [¿Qué es la Ciencia e Ingeniería de Datos?](#%C2%BFqu%C3%A9-es-la-ciencia-e-ingenier%C3%ADa-de-datos)
+  - [Roles](#roles)
+  - [Configuración del ambiente](#configuraci%C3%B3n-del-ambiente)
+  - [Jupyter Notebook](#jupyter-notebook)
+  - [Tipos de datos](#tipos-de-datos)
+  - [Fuentes de datos](#fuentes-de-datos)
+    - [Links de fuentes de datos](#links-de-fuentes-de-datos)
+  - [ETL (Extract Transform Load)](#etl-extract-transform-load)
+  - [Introducción a las tecnologías web](#introducci%C3%B3n-a-las-tecnolog%C3%ADas-web)
+  - [Realizando solicitudes HTTP con Python](#realizando-solicitudes-http-con-python)
+  - [¿Cómo trabajar con documentos HTML?](#%C2%BFc%C3%B3mo-trabajar-con-documentos-html)
+  - [Solicitudes a la web: Requests](#solicitudes-a-la-web-requests)
+  - [Implementando un web scrapper: Configuracion](#implementando-un-web-scrapper-configuracion)
+  - [Introduccion a Pandas](#introduccion-a-pandas)
+  - [Estructura de datos: Series](#estructura-de-datos-series)
+  - [Estructura de datos: DataFrames](#estructura-de-datos-dataframes)
+  - [Indices y seleccion](#indices-y-seleccion)
+    - [Reading data examples](#reading-data-examples)
+    - [Dictionary like examples](#dictionary-like-examples)
+    - [Numpy like examples](#numpy-like-examples)
+    - [Label based examples](#label-based-examples)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -351,7 +356,7 @@ python main.py eluniversal
 python main.py elpais
 ```
 
-## Introducción a Pandas
+## Introduccion a Pandas
 
 Pandas nos otorga diversa facilidades para el "_domados de datos_”. Nos otorga dos estructura de datos:
 
@@ -456,3 +461,75 @@ frame_test3
 ```
 
 ![Resultado del frame_test3](assets/dataframes-python003.png)
+
+## Indices y seleccion
+
+Existen muchas formas de manipular los DataFrames y de seleccionar los elementos que queremos transformar.
+
+__Dictionary like__:
+
+```python
+df[col1] # Regresa un DataSeries
+df[['col1', 'col3']] # Regresa un DataFrame
+```
+
+__Numpy like__:
+
+```python
+# iloc = index location
+df.iloc[:] # fila
+df.iloc[:,:] # fila, columna
+```
+
+__Label based__:
+
+```python
+# loc = location
+df.loc[:] # fila
+df.loc[:,:] # fila, columna
+```
+
+Existe una gran diferencia en la forma en la que utilizamos estos `slices` porque varía de la forma tradicional de Python. `loc` va a incluir el final del que necesitamos, osea, es incluyente con los extremos.
+
+### Reading data examples
+
+```python
+pd.options.display.max_rows = 10 # Nos muestra 10 filas (las 5 primeras y las 5 últimas)
+
+el_universal = pd.read_csv('web_scrapper_curso_data_eng/eluniversal_2018_11_07_articles.csv')
+
+type(el_universal)
+
+el_universal
+
+# el_universal.head() # Nos muestra los primeros 5 datos
+
+# el_universal.tail() # Nos muestra los últimos 5 datos
+```
+
+### Dictionary like examples
+
+```python
+el_universal['title'] # Devuelve todo, pero solo la columna title
+el_universal[['title', 'url']] # Devuelve todo, pero solo las columnas title y url
+```
+
+![DataFrames Dictionary Like Example](assets/dataframes-python004.png)
+
+### Numpy like examples
+
+```python
+el_universal.iloc[10:15] # Nos devuelve el rango sin incluir los valores extremos del rango
+el_universal.iloc[66]['title'] # Devuelve de la fila 66 solamente el title
+el_universal.iloc[:5, 0] # Devuelve del inicio a la fila 5, solamente la columna 0 (no es común ni ideal acceder de este modo)
+```
+
+![DataFrames Dictionary Like Example](assets/dataframes-python005.png)
+
+### Label based examples
+
+```python
+el_universal.loc[:, 'body':'title'] # Devuelve del principio al final solo body y title (incluyendo los valores extremos)
+```
+
+![DataFrames Dictionary Like Example](assets/dataframes-python006.png)
