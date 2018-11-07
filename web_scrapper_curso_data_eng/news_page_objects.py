@@ -26,10 +26,11 @@ class NewsPage:
 class HomePage(NewsPage):
 
     def __init__(self, news_site_uid, url):
+        self._url = url
         super().__init__(news_site_uid, url)
 
     @property
-    def _article_links(self):
+    def article_links(self):
         link_list = []
         for link in self._select(self._queries['homepage_article_links']):
             if link and link.has_attr('href'):
@@ -41,6 +42,7 @@ class HomePage(NewsPage):
 class ArticlePage(NewsPage):
 
     def __init__(self, news_site_uid, url):
+        self._url = url
         super().__init__(news_site_uid, url)
 
     @property
@@ -52,3 +54,7 @@ class ArticlePage(NewsPage):
     def title(self):
         result = self._select(self._queries['article_title'])
         return result[0].text if len(result) else ''
+
+    @property
+    def url(self):
+        return self._url
