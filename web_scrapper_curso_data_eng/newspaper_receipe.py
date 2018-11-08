@@ -109,7 +109,7 @@ def _tokenize_column(df, column_name):
         .apply(lambda valid_word_list: len(valid_word_list)) # obtenemos cuántas palabras son
     )
 
-    df['n_tokens_' + column_name] = n_tokens
+    df['n_tokens_' + column_name] = n_tokens # concatenamos el nombre de la columna con n_tokens para que se aplique a ambas columnas (body y title)
 
     return df
 

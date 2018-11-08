@@ -26,6 +26,7 @@
   - [¿Cómo trabajar con datos faltantes?](#%C2%BFc%C3%B3mo-trabajar-con-datos-faltantes)
   - [Limpiando detalles adicionales](#limpiando-detalles-adicionales)
   - [Enriquecimiento de los datos](#enriquecimiento-de-los-datos)
+  - [Valores duplicados](#valores-duplicados)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -734,3 +735,22 @@ el_universal
 ```
 
 ![Tokenizando las Columnas Body y Title](assets/dataframes-python021.png)
+
+## Valores duplicados
+
+Estos valores duplicados es importantes identificarlos y removerlos de nuestro datasets para que esos valores no generen un peso no justificado dentro del análisis a realizar dentro de nuestro Pipelines.
+
+Pandas nos otorga la función `drop_duplicates` para eliminar estos valores duplicados.
+
+Ejemplo:
+
+```python
+# 7. Vamos a eliminar duplicados
+
+el_universal['title'].value_counts() # buscamos el número de veces que hay valores en la columna
+el_universal[el_universal['title'] == 'Demócratas arrebatan Cámara Baja a Trump'] # máscara booleana para ver las veces que aparece el valor dado
+
+el_universal.drop_duplicates(subset=['title'], keep='first', inplace=True) # eliminamos duplicados y mantenemos el primero
+```
+
+![Cuenta de Titles y Eliminación de Duplicados](assets/dataframes-python022.png)
