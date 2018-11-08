@@ -25,6 +25,7 @@
   - [Data wrangling con Pandas](#data-wrangling-con-pandas)
   - [¿Cómo trabajar con datos faltantes?](#%C2%BFc%C3%B3mo-trabajar-con-datos-faltantes)
   - [Limpiando detalles adicionales](#limpiando-detalles-adicionales)
+  - [Enriquecimiento de los datos](#enriquecimiento-de-los-datos)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -695,3 +696,41 @@ stripped_body
 ![Obteniendo Lista de Letras sin \n](assets/dataframes-python019.png)
 
 ![Transformando Letras a Palabras](assets/dataframes-python020.png)
+
+## Enriquecimiento de los datos
+
+Podemos enriquecer nuestra tabla con información adicional, un poco de información numérica para realizar análisis posterior.
+
+Usaremos `nltk` es una librería dentro del _stack_ de __Ciencia de Datos__ de Python que nos va a permitir tokenizar, separar palabras dentro del título y nos permitirá contar la frecuencia de cuántas palabras existen en nuestro título y body.
+
+Por ejemplo:
+
+```python
+# 6. Tokenizar el title y body
+import nltk
+from nltk.corpus import stopwords # los stopwords no nos añaden valor al análisis ulterior (la, los, nos, etc.)
+
+# en caso que sea la primera vez corriendo nltk
+# en el intérprete de python3 descarga las siguientes librerías con los comandos:
+# nltk.download('punkt')
+# nltk.download('stopwords')
+
+stop_words = set(stopwords.words('spanish'))
+
+def tokenize_column(df, column_name):
+    return (df
+        .dropna() # eliminamos los NaN en caso que aún los haya
+        .apply(lambda row: nltk.word_tokenize(row[column_name]), axis=1) # tokenizamos nuestra columna
+        .apply(lambda tokens: list(filter(lambda token: token.isalpha(), tokens))) # eliminamos todas las palabras que no sean alfanuméricas
+        .apply(lambda tokens_list: list(map(lambda token: token.lower(), tokens_list))) # convertir tokens a lower_case para compararlas correctamente con stopwords
+        .apply(lambda word_list: list(filter(lambda word: word not in stop_words, word_list))) # eliminar palabras dentro de stopwords
+        .apply(lambda valid_word_list: len(valid_word_list)) # obtenemos cuántas palabras son
+    )
+
+el_universal['n_tokens_title'] = tokenize_column(el_universal, 'title')
+el_universal['n_tokens_body'] = tokenize_column(el_universal, 'body')
+
+el_universal
+```
+
+![Tokenizando las Columnas Body y Title](assets/dataframes-python021.png)

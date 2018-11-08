@@ -2,6 +2,8 @@ import argparse # este módulo nos ayuda cuando vamos a crear un script
 import logging # con este módulo le vamos imprimiendo en la consola al usuario lo que está pasando
 logging.basicConfig(level=logging.INFO)
 import hashlib
+import nltk
+from nltk.corpus import stopwords # los stopwords no nos añaden valor al análisis ulterior (la, los, nos, etc.)
 from urllib.parse import urlparse
 
 import pandas as pd
@@ -20,6 +22,8 @@ def main(filename):
     df = _fill_missing_titles(df) # vamos a llenar los titulos vacíos
     df = _generate_uids_for_rows(df) # vamos a convertir los índices en hashes
     df = _remove_new_lines_from_body(df) # vamos a remover los saltos de línea \n
+    df = _tokenize_column(df, 'title') # creamos una columna tokenizada de los titles
+    df = _tokenize_column(df, 'body') # creamos una columna tokenizada de los titles
 
     return df
 
@@ -89,6 +93,24 @@ def _remove_new_lines_from_body(df):
     )
 
     df['body'] = stripped_body
+    return df
+
+
+def _tokenize_column(df, column_name):
+    logger.info(f'Calculating the number of unique tokens in {column_name}')
+    stop_words = set(stopwords.words('spanish')) # seteamos los stopwords a español
+
+    n_tokens = (df
+        .dropna() # eliminamos los NaN en caso que aún los haya
+        .apply(lambda row: nltk.word_tokenize(row[column_name]), axis=1) # tokenizamos nuestra columna
+        .apply(lambda tokens: list(filter(lambda token: token.isalpha(), tokens))) # eliminamos todas las palabras que no sean alfanuméricas
+        .apply(lambda tokens_list: list(map(lambda token: token.lower(), tokens_list))) # convertir tokens a lower_case para compararlas correctamente con stopwords
+        .apply(lambda word_list: list(filter(lambda word: word not in stop_words, word_list))) # eliminar palabras dentro de stopwords
+        .apply(lambda valid_word_list: len(valid_word_list)) # obtenemos cuántas palabras son
+    )
+
+    df['n_tokens_' + column_name] = n_tokens
+
     return df
 
 
