@@ -1,6 +1,7 @@
 import argparse # este módulo nos ayuda cuando vamos a crear un script
 import logging # con este módulo le vamos imprimiendo en la consola al usuario lo que está pasando
 logging.basicConfig(level=logging.INFO)
+import hashlib
 from urllib.parse import urlparse
 
 import pandas as pd
@@ -17,6 +18,8 @@ def main(filename):
     df = _add_newspaper_uid_column(df, newspaper_uid) # vamos a añadir la columna newspaper_uid al DataFrame(df)
     df = _extract_host(df) # vamos a añadir a la columan host los host que capturemos de la columna url
     df = _fill_missing_titles(df) # vamos a llenar los titulos vacíos
+    df = _generate_uids_for_rows(df) # vamos a convertir los índices en hashes
+    df = _remove_new_lines_from_body(df) # vamos a remover los saltos de línea \n
 
     return df
 
@@ -61,6 +64,31 @@ def _fill_missing_titles(df):
 
     df.loc[missing_titles_mask, 'title'] = missing_titles.loc[:, 'missing_titles']
 
+    return df
+
+
+def _generate_uids_for_rows(df):
+    logger.info('Adding hashes uids to the index')
+    uids = (df
+        .apply(lambda row: hashlib.md5(bytes(row['url'].encode())), axis=1)
+        .apply(lambda hash_object: hash_object.hexdigest())
+    )
+
+    df['uid'] = uids
+
+    return df.set_index('uid')
+
+
+def _remove_new_lines_from_body(df):
+    logger.info('Removing new lines from body')
+    stripped_body = (df
+        .apply(lambda row: row['body'], axis=1) # obtenemos la columna body del DataFrame
+        .apply(lambda body: list(body)) # convertimos el body en una lista de letras
+        .apply(lambda letters: list(map(lambda letter: letter.replace('\n', ''), letters))) # iteramos entre cada letra y cambiamos /n por ''. Convertimos el objeto map en objeto lista, envolviéndolo en list()
+        .apply(lambda letters_list: ''.join(letters_list)) # vamos a unir de nuevo la lista
+    )
+
+    df['body'] = stripped_body
     return df
 
 
