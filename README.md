@@ -1,28 +1,29 @@
 # Curso de Ingeniería de Datos con Python
 
 - [Curso de Ingeniería de Datos con Python](#curso-de-ingenier%C3%ADa-de-datos-con-python)
-  - [¿Qué es la Ciencia e Ingeniería de Datos?](#%C2%BFqu%C3%A9-es-la-ciencia-e-ingenier%C3%ADa-de-datos)
-  - [Roles](#roles)
-  - [Configuración del ambiente](#configuraci%C3%B3n-del-ambiente)
-  - [Jupyter Notebook](#jupyter-notebook)
-  - [Tipos de datos](#tipos-de-datos)
-  - [Fuentes de datos](#fuentes-de-datos)
-    - [Links de fuentes de datos](#links-de-fuentes-de-datos)
-  - [ETL (Extract Transform Load)](#etl-extract-transform-load)
-  - [Introducción a las tecnologías web](#introducci%C3%B3n-a-las-tecnolog%C3%ADas-web)
-  - [Realizando solicitudes HTTP con Python](#realizando-solicitudes-http-con-python)
-  - [¿Cómo trabajar con documentos HTML?](#%C2%BFc%C3%B3mo-trabajar-con-documentos-html)
-  - [Solicitudes a la web: Requests](#solicitudes-a-la-web-requests)
-  - [Implementando un web scrapper: Configuracion](#implementando-un-web-scrapper-configuracion)
-  - [Introduccion a Pandas](#introduccion-a-pandas)
-  - [Estructura de datos: Series](#estructura-de-datos-series)
-  - [Estructura de datos: DataFrames](#estructura-de-datos-dataframes)
-  - [Indices y seleccion](#indices-y-seleccion)
-    - [Reading data examples](#reading-data-examples)
-    - [Dictionary like examples](#dictionary-like-examples)
-    - [Numpy like examples](#numpy-like-examples)
-    - [Label based examples](#label-based-examples)
-  - [Data wrangling con Pandas](#data-wrangling-con-pandas)
+    - [¿Qué es la Ciencia e Ingeniería de Datos?](#%C2%BFqu%C3%A9-es-la-ciencia-e-ingenier%C3%ADa-de-datos)
+    - [Roles](#roles)
+    - [Configuración del ambiente](#configuraci%C3%B3n-del-ambiente)
+    - [Jupyter Notebook](#jupyter-notebook)
+    - [Tipos de datos](#tipos-de-datos)
+    - [Fuentes de datos](#fuentes-de-datos)
+        - [Links de fuentes de datos](#links-de-fuentes-de-datos)
+    - [ETL (Extract Transform Load)](#etl-extract-transform-load)
+    - [Introducción a las tecnologías web](#introducci%C3%B3n-a-las-tecnolog%C3%ADas-web)
+    - [Realizando solicitudes HTTP con Python](#realizando-solicitudes-http-con-python)
+    - [¿Cómo trabajar con documentos HTML?](#%C2%BFc%C3%B3mo-trabajar-con-documentos-html)
+    - [Solicitudes a la web: Requests](#solicitudes-a-la-web-requests)
+    - [Implementando un web scrapper: Configuracion](#implementando-un-web-scrapper-configuracion)
+    - [Introduccion a Pandas](#introduccion-a-pandas)
+    - [Estructura de datos: Series](#estructura-de-datos-series)
+    - [Estructura de datos: DataFrames](#estructura-de-datos-dataframes)
+    - [Indices y seleccion](#indices-y-seleccion)
+        - [Reading data examples](#reading-data-examples)
+        - [Dictionary like examples](#dictionary-like-examples)
+        - [Numpy like examples](#numpy-like-examples)
+        - [Label based examples](#label-based-examples)
+    - [Data wrangling con Pandas](#data-wrangling-con-pandas)
+    - [¿Cómo trabajar con datos faltantes?](#%C2%BFc%C3%B3mo-trabajar-con-datos-faltantes)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -587,3 +588,58 @@ el_universal['host'].value_counts()
 ```
 
 ![DataFrames Conociendo los Host](assets/dataframes-python009.png)
+
+## ¿Cómo trabajar con datos faltantes?
+
+Los datos faltantes representan un verdadero problema sobre todo cuando estamos realizando _agregaciones_. Imagina que tenemos datos faltantes y los _llenamos con 0_, pero eso haría que la distribución de datos se modificara radicalmente. Podemos _eliminar los registros_, pero la fuerza de nuestras conclusiones se debilita.
+
+_Pandas_ nos otorga varias funcionalidades para identificarlas y para trabajar con ellas. Existe el concepto que se llama `NaN`, cuando existe un dato faltante simplemente se rellena con un NaN y en ese momento podemos preguntar cuáles son los datos faltantes con:
+
+- `.isna()` para preguntar dónde hay datos faltantes
+- `notna()` para preguntar dónde hay datos completos.
+- `dropna()` para eliminar el registro.
+
+Para reemplazar:
+
+- `fillna()` donde le damos un dato centinela
+- `ffill()` donde utiliza el último valor.
+
+Podemos ver más de estos conceptos en el link [Pandas Conversion](https://pandas.pydata.org/pandas-docs/stable/api.html#id2)
+
+Por ejemplo:
+
+```python
+# 3. Vamos a rellenar los datos (titles) faltantes
+missing_title_mask = el_universal['title'].isna()
+
+# missing_title_mask
+
+miss = el_universal[missing_title_mask]['url']
+
+miss? # este método ? nos devuelve los valores que existen en el DataFrame
+```
+
+![Valores Dentro del DataFrame](assets/dataframes-python010.png)
+
+```python
+missing_titles = (el_universal[missing_title_mask]['url']
+     .str.extract(r'(?P<missing_titles>[^/]+)$')
+     .applymap(lambda title: title.split('-'))
+     .applymap(lambda title_word_list: ' '.join(title_word_list))
+)
+# usamos una regexp, donde ?P<> nos ayuda a nombrarla
+# encerramos todo entre paréntesis, porque en Python, los espacios en blanco no importan
+# applymap nos permite generar un mapa de una valor a otro, es decir una transformación
+# con el primer applymap, dividimos el title por cada uno de los guiones medios
+# con el segundo applymap, unimos todas las palabras, separándolas con un espacio en blanco
+
+missing_titles
+```
+
+![Columna url](assets/dataframes-python011.png)
+
+![Extrayendo la Última Sección del URL](assets/dataframes-python012.png)
+
+![Separando Palabras Divididas por Guión Medio](assets/dataframes-python013.png)
+
+![Obteniendo el Title con Espacios en Blanco Entre Palabras](assets/dataframes-python014.png)
