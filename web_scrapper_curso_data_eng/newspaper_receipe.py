@@ -24,6 +24,9 @@ def main(filename):
     df = _remove_new_lines_from_body(df) # vamos a remover los saltos de línea \n
     df = _tokenize_column(df, 'title') # creamos una columna tokenizada de los titles
     df = _tokenize_column(df, 'body') # creamos una columna tokenizada de los titles
+    df = _remove_duplicate_entries(df, 'title') # eliminamos duplicados
+    df = _drop_rows_with_missing_values(df)
+    _save_data(df, filename)
 
     return df
 
@@ -112,6 +115,25 @@ def _tokenize_column(df, column_name):
     df['n_tokens_' + column_name] = n_tokens # concatenamos el nombre de la columna con n_tokens para que se aplique a ambas columnas (body y title)
 
     return df
+
+
+def _remove_duplicate_entries(df, column_name):
+    logger.info('Removing duplicate entries')
+    df.drop_duplicates(subset=[column_name], keep='first', inplace=True)
+
+    return df
+
+
+def _drop_rows_with_missing_values(df):
+    logger.info('Dropping rows with missing data')
+
+    return df.dropna()
+
+
+def _save_data(df, filename):
+    clean_filename = f'clean_{filename}'
+    logger.info(f'Saving file at: {clean_filename}')
+    df.to_csv(clean_filename)
 
 
 if __name__ == '__main__':
