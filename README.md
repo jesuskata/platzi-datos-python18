@@ -24,6 +24,7 @@
         - [Label based examples](#label-based-examples)
     - [Data wrangling con Pandas](#data-wrangling-con-pandas)
     - [¿Cómo trabajar con datos faltantes?](#%C2%BFc%C3%B3mo-trabajar-con-datos-faltantes)
+    - [Limpiando detalles adicionales](#limpiando-detalles-adicionales)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -643,3 +644,54 @@ missing_titles
 ![Separando Palabras Divididas por Guión Medio](assets/dataframes-python013.png)
 
 ![Obteniendo el Title con Espacios en Blanco Entre Palabras](assets/dataframes-python014.png)
+
+## Limpiando detalles adicionales
+
+```python
+# 4. Añadir uids a las filas
+import hashlib # la librería hashlib nos ayuda a generar un has único de la url
+
+uids = (el_universal
+    .apply(lambda row: hashlib.md5(bytes(row['url'].encode())), axis=1)
+    .apply(lambda hash_object: hash_object.hexdigest())
+)
+
+# el segundo parámetro de apply es el eje, en este caso 1 es filas y 0 columnas
+# hashlib.md5 no es recomendable usarla para criptografía, ya que está comprobado que tiene problemas criptográficos
+# pero nos va a devolver en este caso un número de 128 bits, que lo queremos representar de manera hexadecimal
+# recibe un array de bytes, el cual construimos con un string, que lo sacamos de la url
+# y lo codificamos en utf-8 con encode() -> sin parámetros por default tiene utf-8
+# ya que tenemos nuestro objeto de hash, lo convertimos a una representación hexadecimal
+# hash_object es lo que nos está regresando la primera función
+
+el_universal['uid'] = uids # lo añadimos a una columna
+el_universal.set_index('uid', inplace=True)
+# definimos que esta columna sea nuestro índice (en vez de 0, 1, 2, ...; vamos a tener un uid único)
+# en el primer parámetro de set_index le decimos el nombre de la columna que queremos como uid
+# el segundo parámetro inplace significa que queremos modificar directamente nuestra tabla
+
+el_universal
+```
+
+![Transformando el Indice a Hashes](assets/dataframes-python015.png)
+
+```python
+stripped_body = (el_universal
+    .apply(lambda row: row['body'], axis=1) # obtenemos la columna body del DataFrame
+    .apply(lambda body: list(body)) # convertimos el body en una lista de letras
+    .apply(lambda letters: list(map(lambda letter: letter.replace('\n', ''), letters))) # iteramos entre cada letra y cambiamos /n por ''. Convertimos el objeto map en objeto lista, envolviéndolo en list()
+    .apply(lambda letters_list: ''.join(letters_list)) # vamos a unir de nuevo la lista
+)
+
+stripped_body
+```
+
+![Columna Body](assets/dataframes-python016.png)
+
+![Body en Lista de Letras](assets/dataframes-python017.png)
+
+![Cambio de \n en Modo Objeto del Map](assets/dataframes-python018.png)
+
+![Obteniendo Lista de Letras sin \n](assets/dataframes-python019.png)
+
+![Transformando Letras a Palabras](assets/dataframes-python020.png)
