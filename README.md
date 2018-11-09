@@ -27,6 +27,8 @@
   - [Limpiando detalles adicionales](#limpiando-detalles-adicionales)
   - [Enriquecimiento de los datos](#enriquecimiento-de-los-datos)
   - [Valores duplicados](#valores-duplicados)
+  - [Introducción a los sistemas de datos](#introducci%C3%B3n-a-los-sistemas-de-datos)
+    - [SQL vs NoSQL](#sql-vs-nosql)
 
 ## ¿Qué es la Ciencia e Ingeniería de Datos?
 
@@ -754,3 +756,19 @@ el_universal.drop_duplicates(subset=['title'], keep='first', inplace=True) # eli
 ```
 
 ![Cuenta de Titles y Eliminación de Duplicados](assets/dataframes-python022.png)
+
+## Introducción a los sistemas de datos
+
+Los sistemas de datos vienen en muchos sabores y colores, _SQL_, _NoSQL_, especializados en _procesamiento en bloque, chorro y streaming_. Este tipo de sistema nos permite realizar queries sofisticadas y compartir nuestro trabajo con otros miembros del equipo.
+
+- __Procesamiento de bloque__: Estamos hablando de _datos históricos_, qué sucedió ayer, en el trimestre pasado, cuáles fueron las ventas del año anterior o de los últimos cinco años. Nos permite realizar el procesamiento de manera eficiente.
+
+- __Procesamiento en chorro__: Significa que estamos _procesando los datos conforme van llegando_, las transformaciones se realizan en tiempo real. Este tipo de sistema nos sirven para cuando queremos realizar decisiones en donde la importancia del tiempo es fundamental.
+
+El criterio principal a tener en cuenta: El tiempo que tienes. Si bien los sistemas open source son gratis, para poderlos implementar necesitas tener conocimientos de cloud, debes poder saber trabajar y mantener máquinas.
+
+### SQL vs NoSQL
+
+- SQL vs NoSQL describe las ventajas y desventajas de diversas aproximaciones a sistemas de datos.
+- La discusión más relevante en el mundo de las aplicaciones web y móvil, donde dependiendo de la aplicación, la decisión puede ser fundamental para el crecimiento de la app.
+- La verdad es que para los profesionales de los datos, especialmente los profesionales de los datos. Es necesario saber ambos.
